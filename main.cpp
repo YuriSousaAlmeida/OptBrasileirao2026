@@ -50,9 +50,15 @@ void guardarDistancias(char *arq){
 }
 
 void gerarAleatoria(brasileirao *brStruct){
+    reinicio:
     int vetBase[NUM_TIMES]={0};
     int vetAuxTimes[NUM_TIMES]={0};
-    int vetSolucaoTemp[NUM_TIMES]={-1};
+    int vetSolucaoTemp[NUM_TIMES];
+    memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
+    int tentativas=0;
+    int contadorGeral=0; // Falta resolver problema de algumas rodadas falharem (loop por confrontos)
+    int num;
+
     for(int i=0; i<20; i++){
         vetBase[i]=i;
     }
@@ -60,11 +66,11 @@ void gerarAleatoria(brasileirao *brStruct){
     for(int coluna = 0; coluna < (NUM_RODADAS/2)  ; coluna++) {
         inicio:
         memcpy(vetAuxTimes, vetBase, sizeof(vetBase));
+        memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
+        tentativas=0;
 
-        for(int linha = 0; linha < 20; linha++) {
-            int num;
-            int tentativas=0;
-            memset(vetSolucaoTemp, -1, NUM_TIMES*sizeof(int));
+        for(int linha = 0; linha < NUM_TIMES; linha++) {
+            tentativas=0;
 
             volta:
             num = rand() % 20;
@@ -72,34 +78,34 @@ void gerarAleatoria(brasileirao *brStruct){
             if(tentativas>100){
                 goto inicio;
             }
-                if(vetAuxTimes[num] == -1){
-                    goto volta;
-                }
-                if(((linha%2)!=0)){ // Mudar para ter todos os confrontos batendo == 1 (vet auxiliar, mesmo que o gasto seja grande)
-                if((brStruct->confrontos[brStruct->matJogos[linha-1][coluna]][num])!=0){
-                    goto volta;
-                 }
-                }
+            if(vetAuxTimes[num] == -1){ // Se ja foi sorteado
+                goto volta;
+            }
+            if(((linha%2)!=0)){ // Linhas pares
+            if((brStruct->confrontos[vetSolucaoTemp[linha-1]][num])!=0){
+                goto volta;
+            }
+            }
 
-                vetSolucaoTemp[linha]=num;
-                brStruct->matJogos[linha][coluna]=num;
-                brStruct->matJogos[linha][coluna+19]=num;
-                vetAuxTimes[num] = -1;
+            vetSolucaoTemp[linha]=num;
+            vetAuxTimes[num] = -1; // Tira a possibilidade de sortear novamente
 
 
         }
 
-        for(int linha = 0; linha < 20; linha++){
+        for(int linha = 0; linha < NUM_TIMES; linha++){
+            brStruct->matJogos[linha][coluna]=vetSolucaoTemp[linha];     // Set solucao na matriz de jogos
+            brStruct->matJogos[linha][coluna+19]=vetSolucaoTemp[linha];  // Espelhamento na matriz de jogos (desordenado)
             if((linha%2)!=0){
-                brStruct->confrontos[brStruct->matJogos[linha][coluna]][brStruct->matJogos[linha-1][coluna]]++; // Passível de otimização
-                brStruct->confrontos[brStruct->matJogos[linha-1][coluna]][brStruct->matJogos[linha][coluna]]++; // Passível de otimização
+                brStruct->confrontos[brStruct->matJogos[linha][coluna]][brStruct->matJogos[linha-1][coluna]]++;
+                brStruct->confrontos[brStruct->matJogos[linha-1][coluna]][brStruct->matJogos[linha][coluna]]++;
             }
         }
 
         printf("Fim da rodada: %d\n", coluna);
     }
 
-    for(int coluna = 19; coluna < 38  ; coluna++){
+    for(int coluna = 19; coluna < 38  ; coluna++){  // Espelho do returno
         for(int linha = 0; linha < 20; linha++){
             int numAux=brStruct->matJogos[linha+1][coluna];
             brStruct->matJogos[linha+1][coluna]=brStruct->matJogos[linha][coluna];
