@@ -2,12 +2,12 @@
 #define HEADERBRASILEIRAO_H_INCLUDED
 
 #define NUM_TIMES 20
-#define NUM_JOGOS 38
+#define NUM_RODADAS 38
 
 float matrizDistancia[NUM_TIMES][NUM_TIMES];
 
 typedef struct{
-    int matJogos[NUM_TIMES][NUM_JOGOS];
+    int matJogos[NUM_TIMES][NUM_RODADAS];
     int confrontos[NUM_TIMES][NUM_TIMES];
     int locAtual[NUM_TIMES];
 } brasileirao;
@@ -15,7 +15,8 @@ typedef struct{
 ////////////////
 
 void guardarDistancias(char *arq);
-void gerarSolJogos(brasileirao *brStruct);
+void imprimirMatJogos(brasileirao *brStruct);
+void imprimirMatConfrontos(brasileirao *brStruct);
 void gerarAleatoria(brasileirao *brStruct);
 
 #endif
