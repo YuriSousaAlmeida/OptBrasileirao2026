@@ -60,7 +60,7 @@ void gerarAleatoria(brasileirao *brStruct){
     memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
     memset(brStruct->confrontos, 0, sizeof(brStruct->confrontos));
 
-    for(int i=0; i<20; i++){
+    for(int i=0; i<NUM_TIMES; i++){
         vetBase[i]=i;
     }
 
@@ -75,13 +75,13 @@ void gerarAleatoria(brasileirao *brStruct){
             tentativas=0;
 
             volta:
-            num = rand() % 20;
+            num = rand() % NUM_TIMES;
             tentativas++;
             contadorGeral++;
-            if(contadorGeral>10000){ // OBS: Zerar matriz e reformular goto
+            if(contadorGeral>100000){ // OBS: Zerar matriz e reformular goto
                 goto reinicio;
             }
-            if(tentativas>100){
+            if(tentativas>1000){
                 goto inicio;
             }
             if(vetAuxTimes[num] == -1){ // Se ja foi sorteado
@@ -101,7 +101,7 @@ void gerarAleatoria(brasileirao *brStruct){
 
         for(int linha = 0; linha < NUM_TIMES; linha++){
             brStruct->matJogos[linha][coluna]=vetSolucaoTemp[linha];     // Set solucao na matriz de jogos
-            brStruct->matJogos[linha][coluna+19]=vetSolucaoTemp[linha];  // Espelhamento na matriz de jogos (desordenado)
+            brStruct->matJogos[linha][coluna+(NUM_RODADAS/2)]=vetSolucaoTemp[linha];  // Espelhamento na matriz de jogos (desordenado)
             if((linha%2)!=0){
                 brStruct->confrontos[brStruct->matJogos[linha][coluna]][brStruct->matJogos[linha-1][coluna]]++;
                 brStruct->confrontos[brStruct->matJogos[linha-1][coluna]][brStruct->matJogos[linha][coluna]]++;
@@ -112,11 +112,10 @@ void gerarAleatoria(brasileirao *brStruct){
     }
 
     for(int coluna = NUM_RODADAS/2; coluna < NUM_RODADAS  ; coluna++){  // Espelho do returno
-        for(int linha = 0; linha < NUM_TIMES; linha++){
+        for(int linha = 0; linha < NUM_TIMES; linha+=2){
             int numAux=brStruct->matJogos[linha+1][coluna];
             brStruct->matJogos[linha+1][coluna]=brStruct->matJogos[linha][coluna];
             brStruct->matJogos[linha][coluna]= numAux;
-            linha++;
         }
     }
 
