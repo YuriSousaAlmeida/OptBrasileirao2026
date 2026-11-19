@@ -54,16 +54,18 @@ void gerarAleatoria(brasileirao *brStruct){
     int vetBase[NUM_TIMES]={0};
     int vetAuxTimes[NUM_TIMES]={0};
     int vetSolucaoTemp[NUM_TIMES];
-    memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
     int tentativas=0;
-    int contadorGeral=0; // Falta resolver problema de algumas rodadas falharem (loop por confrontos)
+    int contadorGeral=0;
     int num;
+    memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
+    memset(brStruct->confrontos, 0, sizeof(brStruct->confrontos));
 
     for(int i=0; i<20; i++){
         vetBase[i]=i;
     }
 
     for(int coluna = 0; coluna < (NUM_RODADAS/2)  ; coluna++) {
+        contadorGeral=0;
         inicio:
         memcpy(vetAuxTimes, vetBase, sizeof(vetBase));
         memset(vetSolucaoTemp, -1, sizeof(vetSolucaoTemp));
@@ -75,6 +77,10 @@ void gerarAleatoria(brasileirao *brStruct){
             volta:
             num = rand() % 20;
             tentativas++;
+            contadorGeral++;
+            if(contadorGeral>10000){ // OBS: Zerar matriz e reformular goto
+                goto reinicio;
+            }
             if(tentativas>100){
                 goto inicio;
             }
@@ -105,8 +111,8 @@ void gerarAleatoria(brasileirao *brStruct){
         printf("Fim da rodada: %d\n", coluna);
     }
 
-    for(int coluna = 19; coluna < 38  ; coluna++){  // Espelho do returno
-        for(int linha = 0; linha < 20; linha++){
+    for(int coluna = NUM_RODADAS/2; coluna < NUM_RODADAS  ; coluna++){  // Espelho do returno
+        for(int linha = 0; linha < NUM_TIMES; linha++){
             int numAux=brStruct->matJogos[linha+1][coluna];
             brStruct->matJogos[linha+1][coluna]=brStruct->matJogos[linha][coluna];
             brStruct->matJogos[linha][coluna]= numAux;
@@ -156,4 +162,8 @@ void imprimirMatConfrontos(brasileirao *brStruct){
         printf("\n");
     }
     printf("\n");
+}
+
+void calcularFo(brasileirao *brStruct){
+
 }

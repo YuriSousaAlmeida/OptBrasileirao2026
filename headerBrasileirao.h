@@ -18,5 +18,6 @@ void guardarDistancias(char *arq);
 void imprimirMatJogos(brasileirao *brStruct);
 void imprimirMatConfrontos(brasileirao *brStruct);
 void gerarAleatoria(brasileirao *brStruct);
+void calcularFo(brasileirao *brStruct);
 
 #endif
