@@ -10,6 +10,7 @@ typedef struct{
     int matJogos[NUM_TIMES][NUM_RODADAS];
     int confrontos[NUM_TIMES][NUM_TIMES];
     int locAtual[NUM_TIMES];
+    float fo;
 } brasileirao;
 
 ////////////////

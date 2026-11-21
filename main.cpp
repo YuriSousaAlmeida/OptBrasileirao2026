@@ -78,7 +78,7 @@ void gerarAleatoria(brasileirao *brStruct){
             num = rand() % NUM_TIMES;
             tentativas++;
             contadorGeral++;
-            if(contadorGeral>100000){ // OBS: Zerar matriz e reformular goto
+            if(contadorGeral>100000){
                 goto reinicio;
             }
             if(tentativas>1000){
@@ -93,6 +93,11 @@ void gerarAleatoria(brasileirao *brStruct){
             }
             }
 
+            if((linha%2)==0){ // Falta terminar !!
+
+            }else{
+
+            }
             vetSolucaoTemp[linha]=num;
             vetAuxTimes[num] = -1; // Tira a possibilidade de sortear novamente
 
@@ -163,6 +168,14 @@ void imprimirMatConfrontos(brasileirao *brStruct){
     printf("\n");
 }
 
-void calcularFo(brasileirao *brStruct){
+void calcularFo(brasileirao *brStruct){ // Incompleto
+    for(int i=0; i<NUM_RODADAS; i++){
+        for(int j=0; j<NUM_TIMES; j++){
+            if((j%2)==0){
 
+            }else{
+
+            }
+        }
+    }
 }
