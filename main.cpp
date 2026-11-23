@@ -193,9 +193,11 @@ void calcularFo(brasileirao *brStruct){
         for(int j=0; j<NUM_TIMES; j+=2){
             int mandante=brStruct->matJogos[j][i];
             int visitante=brStruct->matJogos[j+1][i];
+            brStruct->fo+=matrizDistancia[brStruct->locAtual[mandante]][mandante];
+            brStruct->locAtual[mandante]=mandante;
 
-            // Incompleto
-            // Devo desenvolver baseado nos inteiros mandante/visitante
+            brStruct->fo+=matrizDistancia[brStruct->locAtual[visitante]][mandante];
+            brStruct->locAtual[visitante]=mandante;
 
         }
     }
