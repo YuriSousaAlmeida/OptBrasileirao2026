@@ -202,3 +202,7 @@ void calcularFo(brasileirao *brStruct){
         }
     }
 }
+
+void GRASP(brasileirao *brStruct){
+
+}
