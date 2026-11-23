@@ -9,7 +9,9 @@ int main()
 {
     srand(time(NULL));
 
-    guardarDistancias("C:\\Users\\Yuri\\Desktop\\Metodos\\Projects\\TrabalhoOptBrasileirao\\matDist.csv");
+    //guardarDistancias("C:\\Users\\Yuri\\Desktop\\Metodos\\Projects\\TrabalhoOptBrasileirao\\matDist.csv");
+    guardarDistancias("C:\\Users\\Yuri\\Desktop\\pastaGit\\TrabalhoDoBrasileirao\\matDist.csv");
+
 
     brasileirao brasileirao2026;
     memset(brasileirao2026.confrontos, 0, sizeof(brasileirao2026.confrontos));
@@ -19,6 +21,21 @@ int main()
     printf("");
     printf("");
     imprimirMatJogos(&brasileirao2026);
+
+    for(int i=0; i<NUM_TIMES; i++){
+        if(i==0) printf("Times:\n");
+        printf("%d\n", brasileirao2026.locAtual[i]);
+    }
+
+    for(int i=0; i<NUM_TIMES; i++){
+        for(int j=0; j<NUM_TIMES; j++){
+            printf("%f  ", matrizDistancia[i][j]);
+        } printf("\n");
+    }
+
+    calcularFo(&brasileirao2026);
+    printf("FO:\n");
+    printf("%.2f\n", brasileirao2026.fo);
 
     return 0;
 }
@@ -84,23 +101,20 @@ void gerarAleatoria(brasileirao *brStruct){
             if(tentativas>1000){
                 goto inicio;
             }
+
             if(vetAuxTimes[num] == -1){ // Se ja foi sorteado
                 goto volta;
             }
-            if(((linha%2)!=0)){ // Linhas pares
-            if((brStruct->confrontos[vetSolucaoTemp[linha-1]][num])!=0){
-                goto volta;
-            }
+
+            if(((linha%2)!=0)){ // Linhas impares
+            if((brStruct->confrontos[vetSolucaoTemp[linha-1]][num])!=0)goto volta;
+            brStruct->locAtual[num]=vetSolucaoTemp[linha-1];
+            }else{              // Linhas pares
+                brStruct->locAtual[num]=num;
             }
 
-            if((linha%2)==0){ // Falta terminar !!
-
-            }else{
-
-            }
             vetSolucaoTemp[linha]=num;
             vetAuxTimes[num] = -1; // Tira a possibilidade de sortear novamente
-
 
         }
 
@@ -169,7 +183,17 @@ void imprimirMatConfrontos(brasileirao *brStruct){
 }
 
 void calcularFo(brasileirao *brStruct){ // Incompleto
-    for(int i=0; i<NUM_RODADAS; i++){
+    brStruct->fo=0;
+    for(int i=0; i<NUM_TIMES; i++){
+        if((i%2)!=0){
+            brStruct->fo+=matrizDistancia[brStruct->matJogos[i][0]][brStruct->matJogos[i-1][0]];
+        }
+
+    }
+    /*for(int i=0; i<NUM_RODADAS; i++){
+        if(i==0){
+            continue;
+        }
         for(int j=0; j<NUM_TIMES; j++){
             if((j%2)==0){
 
@@ -177,5 +201,5 @@ void calcularFo(brasileirao *brStruct){ // Incompleto
 
             }
         }
-    }
+    }*/
 }
