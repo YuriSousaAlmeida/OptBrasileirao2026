@@ -141,7 +141,7 @@ void gerarAleatoria(brasileirao *brStruct){
 }
 
 void imprimirMatJogos(brasileirao *brStruct){
-    printf(" Pos  |");
+    printf("Pos|");
     for(int j = 0; j < NUM_RODADAS; j++) {
         printf(" R%02d", j + 1);
     }
@@ -152,7 +152,7 @@ void imprimirMatJogos(brasileirao *brStruct){
     printf("\n");
 
     for(int i = 0; i < NUM_TIMES; i++) {
-        printf(" %2d  |", i);
+        printf("%2d|", i);
         for(int j = 0; j < NUM_RODADAS; j++) {
             printf(" %3d", brStruct->matJogos[i][j]);
         }
@@ -182,24 +182,21 @@ void imprimirMatConfrontos(brasileirao *brStruct){
     printf("\n");
 }
 
-void calcularFo(brasileirao *brStruct){ // Incompleto
+void calcularFo(brasileirao *brStruct){
     brStruct->fo=0;
+
     for(int i=0; i<NUM_TIMES; i++){
-        if((i%2)!=0){
-            brStruct->fo+=matrizDistancia[brStruct->matJogos[i][0]][brStruct->matJogos[i-1][0]];
-        }
-
+        brStruct->locAtual[i]=i;
     }
-    /*for(int i=0; i<NUM_RODADAS; i++){
-        if(i==0){
-            continue;
-        }
-        for(int j=0; j<NUM_TIMES; j++){
-            if((j%2)==0){
 
-            }else{
+    for(int i=0; i<NUM_RODADAS; i++){
+        for(int j=0; j<NUM_TIMES; j+=2){
+            int mandante=brStruct->matJogos[j][i];
+            int visitante=brStruct->matJogos[j+1][i];
 
-            }
+            // Incompleto
+            // Devo desenvolver baseado nos inteiros mandante/visitante
+
         }
-    }*/
+    }
 }
