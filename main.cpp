@@ -9,9 +9,7 @@ int main()
 {
     srand(time(NULL));
 
-    //guardarDistancias("C:\\Users\\Yuri\\Desktop\\Metodos\\Projects\\TrabalhoOptBrasileirao\\matDist.csv");
-    guardarDistancias("C:\\Users\\Yuri\\Desktop\\pastaGit\\TrabalhoDoBrasileirao\\matDist.csv");
-
+    guardarDistancias("C:\\Users\\Yuri\\Desktop\\Metodos\\Projects\\TrabalhoOptBrasileirao\\matDist.csv");
 
     brasileirao brasileirao2026;
     memset(brasileirao2026.confrontos, 0, sizeof(brasileirao2026.confrontos));
@@ -43,7 +41,7 @@ int main()
 void guardarDistancias(char *arq){
     FILE *arquivo = fopen(arq, "r");
     if(arquivo==NULL){
-        printf("Arquivo de distâncias do csv não foi encontrado!\n");
+        printf("Arquivo de distï¿½ncias do csv nï¿½o foi encontrado!\n");
         exit(1);
     }
 
@@ -57,7 +55,7 @@ void guardarDistancias(char *arq){
 
     fclose(arquivo);
 
-    /*printf("Matriz do csv em memória\n");
+    /*printf("Matriz do csv em memï¿½ria\n");
     for (int i = 0; i < 20; i++) {
         for (int j = 0; j < 20; j++) {
             printf("%8.2f ", matrizDistancia[i][j]);
